@@ -96,8 +96,6 @@ function App() {
   const [isHeroPaused, setIsHeroPaused] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("Send Enquiry");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState("");
   const [lightboxSrc, setLightboxSrc] = useState("");
 
   const galleryImages = useMemo(() => {
@@ -173,46 +171,15 @@ function App() {
     setOpenDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleFormSubmit = async (event) => {
+  const handleFormSubmit = (event) => {
     event.preventDefault();
-    setSubmitError("");
-    setIsSubmitting(true);
-    setSubmitMessage("Sending...");
+    setSubmitMessage("Thank you! We'll be in touch.");
+    setIsSubmitted(true);
 
-    const form = event.target;
-    const name = form.name?.value?.trim() ?? "";
-    const email = form.email?.value?.trim() ?? "";
-    const dates = form.dates?.value?.trim() ?? "";
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, dates }),
-      });
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        setSubmitError(data.error || "Something went wrong. Please try again or email us directly.");
-        setSubmitMessage("Send Enquiry");
-        setIsSubmitting(false);
-        return;
-      }
-
-      setSubmitMessage("Thank you! We'll be in touch.");
-      setIsSubmitted(true);
-      form.reset();
-
-      window.setTimeout(() => {
-        setSubmitMessage("Send Enquiry");
-        setIsSubmitted(false);
-      }, 3000);
-    } catch {
-      setSubmitError("Something went wrong. Please try again or email us directly.");
+    window.setTimeout(() => {
       setSubmitMessage("Send Enquiry");
-    } finally {
-      setIsSubmitting(false);
-    }
+      setIsSubmitted(false);
+    }, 3000);
   };
 
   const closeNav = () => setIsNavOpen(false);
@@ -543,12 +510,7 @@ function App() {
                 <input type="email" id="email" name="email" required />
                 <label htmlFor="dates">Travel dates / preferences</label>
                 <textarea id="dates" name="dates" rows="4" />
-                {submitError && (
-                  <p className="contact-form-error" role="alert">
-                    {submitError}
-                  </p>
-                )}
-                <button type="submit" className="btn btn-primary" disabled={isSubmitted || isSubmitting}>
+                <button type="submit" className="btn btn-primary" disabled={isSubmitted}>
                   {submitMessage}
                 </button>
               </form>
