@@ -105,4 +105,77 @@
       }, 3000);
     });
   }
+
+  // Photo gallery: load images from photo_gallery folder
+  var galleryGrid = document.querySelector('.gallery-grid');
+  if (galleryGrid) {
+    var extensions = ['jpg', 'jpeg', 'png', 'webp'];
+    var maxSlots = 24;
+
+    function tryAddImage(num) {
+      if (num > maxSlots) return;
+      var tried = 0;
+      function tryNext() {
+        if (tried >= extensions.length) {
+          tryAddImage(num + 1);
+          return;
+        }
+        var ext = extensions[tried++];
+        var src = 'photo_gallery/' + num + '.' + ext;
+        var img = new Image();
+        img.onload = function () {
+          var wrap = document.createElement('div');
+          wrap.className = 'gallery-item';
+          wrap.setAttribute('role', 'listitem');
+          var thumb = document.createElement('img');
+          thumb.src = src;
+          thumb.alt = 'Gallery image ' + num;
+          wrap.appendChild(thumb);
+          wrap.addEventListener('click', function () {
+            openLightbox(src);
+          });
+          galleryGrid.appendChild(wrap);
+          tryAddImage(num + 1);
+        };
+        img.onerror = function () {
+          tryNext();
+        };
+        img.src = src;
+      }
+      tryNext();
+    }
+
+    function openLightbox(src) {
+      var lightbox = document.getElementById('gallery-lightbox');
+      var lbImg = lightbox && lightbox.querySelector('.gallery-lightbox-img');
+      if (!lightbox || !lbImg) return;
+      lbImg.src = src;
+      lightbox.removeAttribute('hidden');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      var lightbox = document.getElementById('gallery-lightbox');
+      if (!lightbox) return;
+      lightbox.setAttribute('hidden', '');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    var closeBtn = document.querySelector('.gallery-lightbox-close');
+    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+
+    var lb = document.getElementById('gallery-lightbox');
+    if (lb) {
+      lb.addEventListener('click', function (e) {
+        if (e.target === lb) closeLightbox();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lb.getAttribute('aria-hidden') === 'false') closeLightbox();
+      });
+    }
+
+    tryAddImage(1);
+  }
 })();
