@@ -4,28 +4,24 @@ A static website for **Pearl Paradise Tours** — Sri Lanka tour guides and cust
 
 ## Contents
 
-- **index.html** — Single-page site with hero slider, day tours grid, tailor-made section, rentals, services, testimonials, FAQ, and contact form
+- **index.html** — Vite entry; single-page app with hero slider, day tours, rentals, services, testimonials, FAQ, and contact form
+- **src/App.jsx** — Main React app (hero, itineraries, gallery, contact)
+- **src/main.jsx** — React entry
 - **css/style.css** — Layout and Pearl Paradise branding (ocean teal, pearl cream, gold accents)
-- **js/main.js** — Hero slider, mobile menu, dropdowns, contact form feedback
 
 ## Run locally
 
-Open `index.html` in a browser, or use a simple static server:
-
 ```bash
-# Python 3
-python -m http.server 8000
-
-# Node (npx)
-npx serve .
+npm install
+npm run dev
 ```
 
-Then visit `http://localhost:8000`.
+Then visit `http://localhost:5173`. For a production build: `npm run build` (output in `dist/`).
 
 ## Customize
 
-- **Copy & contact**: Edit `index.html` for phone, email, address, and any text.
-- **Images**: Hero and tour cards use Unsplash URLs. Replace with your own files (e.g. in an `images/` folder) and update the `style` or `src` attributes.
+- **Copy & contact**: Edit `src/App.jsx` for phone, email, address, and any text.
+- **Images**: Hero and gallery use local images in `images/` and `photo_gallery/`. Update paths in `App.jsx` or add new files.
 - **Colors**: In `css/style.css`, change the `:root` variables (`--color-ocean`, `--color-gold`, `--color-pearl`, etc.) to match your brand.
 
 ## License
