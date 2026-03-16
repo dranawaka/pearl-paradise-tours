@@ -498,7 +498,7 @@ function App() {
                   wildlife, scenic tours, tropical cuisine or Ayurveda - we design the perfect journey.
                 </p>
                 <ul className="contact-details">
-                  <li>📞 +94 (0) 77 123 4567</li>
+                  <li>📞 +94 (0) 77 778 8577</li>
                   <li>✉️ info@pearlparadisetours.com</li>
                   <li>📍 Negombo, Sri Lanka</li>
                 </ul>
@@ -556,6 +556,7 @@ function App() {
             </div>
           </div>
           <p className="footer-copy">© 2025 Pearl Paradise Tours. All Rights Reserved.</p>
+          <p className="footer-copy">Powered by Dilan H. Ranawaka</p>
         </div>
       </footer>
     </>
